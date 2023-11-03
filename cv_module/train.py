@@ -1,6 +1,7 @@
 import torch.optim as optim
 import torch.nn as nn
 import wandb
+import cv_module.neural_network
 
 run = wandb.init(
     project="pytorch_classification",
@@ -35,5 +36,5 @@ def train_nn(net, trainset):
                 print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}')
                 wandb.log({'loss': running_loss/2000})
                 running_loss = 0.0
-                
+    cv_module.neural_network.save_Net(net, 'model')            
     print('Finished Training')
