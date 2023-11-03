@@ -1,11 +1,19 @@
 import torch.optim as optim
 import torch.nn as nn
+import wandb
 
+run = wandb.init(
+    project="pytorch_classification",
+    notes="My first experiment",
+)
+
+wandb.config = {"epochs": 4, "learning_rate": 0.0005, "batch_size": 4}
 def train_nn(net, trainset):
-    criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
 
-    for epoch in range(2):  # loop over the dataset multiple times
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.SGD(net.parameters(), lr=0.0005, momentum=0.9)
+
+    for epoch in range(8):  # loop over the dataset multiple times
 
         running_loss = 0.0
         for i, data in enumerate(trainset, 0):
@@ -25,5 +33,7 @@ def train_nn(net, trainset):
             running_loss += loss.item()
             if i % 2000 == 1999:    # print every 2000 mini-batches
                 print(f'[{epoch + 1}, {i + 1:5d}] loss: {running_loss / 2000:.3f}')
+                wandb.log({'loss': running_loss/2000})
                 running_loss = 0.0
+                
     print('Finished Training')
