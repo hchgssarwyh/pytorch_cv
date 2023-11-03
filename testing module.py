@@ -8,7 +8,7 @@ trainloader = cv_module.data.trainloader()
 
 cv_module.train.train_nn(net, trainloader)
 
-testloader = cv_module.data.trainloader()
+testloader = cv_module.data.testloader()
 
 cv_module.neural_network.test_Net(net, testloader)
 
