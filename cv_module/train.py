@@ -13,7 +13,7 @@ def train_nn(net, trainset):
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=0.0005, momentum=0.9)
 
-    for epoch in range(8):  # loop over the dataset multiple times
+    for epoch in range(4):  # loop over the dataset multiple times
 
         running_loss = 0.0
         for i, data in enumerate(trainset, 0):
