@@ -2,14 +2,28 @@ import cv_module.data
 import cv_module.neural_network
 import cv_module.train
 import cv_module
+import pytorch_lightning as L
+import wandb
+from cv_module.train import trainer, dm
 
-net = cv_module.neural_network.Net()
-trainloader = cv_module.data.trainloader()
+wandb.init(
+    project="pytorch_classification",
 
-cv_module.train.train_nn(net, trainloader)
+    config={
+    "learning_rate": cv_module.learning_rate,
+    "dataset": "CIFAR-10",
+    "batch_size": cv_module.batch_size,
+    "epochs": cv_module.epochs,
+    }
+)
+net = cv_module.neural_network.Net(len(cv_module.classes))
 
-testloader = cv_module.data.testloader()
+trainer.fit(net,dm)
 
-cv_module.neural_network.test_Net(net, testloader)
+trainer.validate(net, dm)
 
-cv_module.neural_network.accuracy_for_classes(net, testloader)
+trainer.test(net, dm)
+
+cv_module.neural_network.accuracy_for_classes(net, dm.test_dataloader())
+
+wandb.finish()
