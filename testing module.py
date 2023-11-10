@@ -27,3 +27,5 @@ trainer.test(net, dm)
 cv_module.neural_network.accuracy_for_classes(net, dm.test_dataloader())
 
 wandb.finish()
+
+cv_module.neural_network.saveNet(net,'')
